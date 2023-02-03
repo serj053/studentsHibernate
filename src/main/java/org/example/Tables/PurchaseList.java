@@ -4,24 +4,25 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Date;
+import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "purchaselist")
-public class PurchaseList {
+public class PurchaseList  implements Serializable {
     @EmbeddedId
-    private PurchaseLisKey id;
+    private PurchaseListKey id;
     @Column(name = "student_name", insertable = false, updatable = false)
     private String studentName;
     @Column(name = "course_name", insertable = false, updatable = false)
     private String courseName;
-    private float price;
+    private int price;
     @Column(name = "subscription_date")
     private Date subscriptionDate;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE},fetch= FetchType.EAGER)
     @JoinColumn(name = "student_name", insertable = false, updatable = false, referencedColumnName = "id")
     private Student student;
     @ManyToOne
@@ -32,8 +33,8 @@ public class PurchaseList {
 
     }
 
-    public PurchaseList(PurchaseLisKey id, String studentName,
-                        String courseName, float price, Date subscriptionDate) {
+    public PurchaseList(PurchaseListKey id, String studentName,
+                        String courseName, int price, Date subscriptionDate) {
         this.id = id;
         this.studentName = studentName;
         this.courseName = courseName;

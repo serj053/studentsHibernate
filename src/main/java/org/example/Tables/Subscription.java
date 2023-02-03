@@ -4,19 +4,20 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "subscriptions")
-public class Subscription {
+public class Subscription  implements Serializable {
     @EmbeddedId
     private SubscriptionKey id;
     @Column(name = "student_id", insertable = false, updatable = false)
-    private int student_id;
+    private int studentId;
     @Column(name = "course_id", insertable = false, updatable = false)
-    private int course_id;
+    private int courseId;
     @Column(name = "subscription_date")
     private Date subscriptionDate;
 
@@ -25,8 +26,8 @@ public class Subscription {
 
     public Subscription(SubscriptionKey id, int student_id, int course_id, Date subscriptionDate) {
         this.id = id;
-        this.student_id = student_id;
-        this.course_id = course_id;
+        this.studentId = student_id;
+        this.courseId = course_id;
         this.subscriptionDate = subscriptionDate;
     }
     @ManyToOne

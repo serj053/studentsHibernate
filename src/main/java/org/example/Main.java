@@ -1,33 +1,49 @@
 package org.example;
 
-import org.example.Tables.Student;
+import org.example.ParsingClasses.*;
+import org.example.Tables.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.Metadata;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.io.IOException;
+import java.text.ParseException;
 
 public class Main {
-    public static void main(String[] args) {
-        List<String> dataClass = new ArrayList<>();
-        StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-                .configure("hibernate.cfg.xml").build();
-        Metadata metadata = new MetadataSources(registry).getMetadataBuilder().build();
-        SessionFactory sessionFactory = metadata.getSessionFactoryBuilder().build();
+    public static void main(String[] args) throws IOException, ParseException {
+
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        int id = 1;
-        String name = "name";
-        int age = 23;
-        Date date = new Date();
-        Student student;
-        student = new Student(name, age, date);
-        session.persist(student);
+
+        String[] listCourses = ReadDump.getLineDump("data/dump.sql", "Courses");
+        for (String str : listCourses) {
+            Course st = new Course();
+            CoursesDump.doStudents(session, st, str);
+        }
+        String[] listStudent = ReadDump.getLineDump("data/dump.sql", "Students");
+        for (String str : listStudent) {
+            Student st = new Student();
+            StudentsDump.doStudents(session, st, str);
+        }
+
+        String[] listTeachers = ReadDump.getLineDump("data/dump.sql", "Teachers");
+        for (String str : listTeachers) {
+            Teacher st = new Teacher();
+            TeachersDump.doTeachers(session, st, str);
+        }
+
+        String[] listPurchaseList = ReadDump.getLineDump("data/dump.sql", "PurchaseList");
+        for (String str : listPurchaseList) {
+            PurchaseList st = new PurchaseList();
+            PurchaseListDump.doPurchaseList(session, st, str);
+        }
+
+        String[] listSubscriptions = ReadDump.getLineDump("data/dump.sql", "Subscription");
+        for (String str : listSubscriptions) {
+            Subscription st = new Subscription();
+            SubscriptionsDump.doSubscriptions(session, st, str);
+        }
+
 
 
         session.getTransaction().commit();

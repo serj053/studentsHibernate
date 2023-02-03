@@ -1,6 +1,9 @@
 package org.example.Tables;
 
-public enum CourseType {
+import java.io.Serializable;
+
+public enum CourseType  implements Serializable {
+
     DESIGN,
     PROGRAMMING,
     MARKETING,
