@@ -14,7 +14,7 @@ public class Main {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-
+        /*new branch*/
 
         String[] listStudent = ReadDump.getLineDump("data/dump.sql", "Students");
         for (String str : listStudent) {
