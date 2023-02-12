@@ -15,15 +15,21 @@ public class Main {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
 
-        String[] listCourses = ReadDump.getLineDump("data/dump.sql", "Courses");
-        for (String str : listCourses) {
-            Course st = new Course();
-            CoursesDump.doStudents(session, st, str);
-        }
+
         String[] listStudent = ReadDump.getLineDump("data/dump.sql", "Students");
         for (String str : listStudent) {
             Student st = new Student();
             StudentsDump.doStudents(session, st, str);
+        }
+
+        String[] listSubscriptions = ReadDump.getLineDump("data/dump.sql", "Subscription");
+        for (String str : listSubscriptions) {
+            SubscriptionsDump.doSubscriptions(session, str);
+        }
+
+        String[] listPurchaseList = ReadDump.getLineDump("data/dump.sql", "PurchaseList");
+        for (String str : listPurchaseList) {
+            PurchaseListDump.doPurchaseList(session, str);
         }
 
         String[] listTeachers = ReadDump.getLineDump("data/dump.sql", "Teachers");
@@ -32,19 +38,11 @@ public class Main {
             TeachersDump.doTeachers(session, st, str);
         }
 
-        String[] listPurchaseList = ReadDump.getLineDump("data/dump.sql", "PurchaseList");
-        for (String str : listPurchaseList) {
-            PurchaseList st = new PurchaseList();
-            PurchaseListDump.doPurchaseList(session, st, str);
+        String[] listCourses = ReadDump.getLineDump("data/dump.sql", "Courses");
+        for (String str : listCourses) {
+            Course st = new Course();
+            CoursesDump.doCourse(session, st, str);
         }
-
-        String[] listSubscriptions = ReadDump.getLineDump("data/dump.sql", "Subscription");
-        for (String str : listSubscriptions) {
-            Subscription st = new Subscription();
-            SubscriptionsDump.doSubscriptions(session, st, str);
-        }
-
-
 
         session.getTransaction().commit();
         sessionFactory.close();

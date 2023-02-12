@@ -18,6 +18,8 @@ public class Teacher  implements Serializable {
     private String name;
     private int salary;
 
+    //private Set<Course> course = new HashSet<>();
+
     public String getName() {
         return name;
     }

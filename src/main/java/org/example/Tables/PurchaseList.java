@@ -13,34 +13,55 @@ import java.util.Date;
 @Table(name = "purchaselist")
 public class PurchaseList  implements Serializable {
     @EmbeddedId
-    private PurchaseListKey id;
-    @Column(name = "student_name", insertable = false, updatable = false)
-    private String studentName;
-    @Column(name = "course_name", insertable = false, updatable = false)
-    private String courseName;
-    private int price;
+    protected PurchaseListKey id;
+    @ManyToOne
+    @JoinColumn(name = "student_id", insertable = false, updatable = false)
+    protected Student studentid;
+    @ManyToOne
+    @JoinColumn(name = "course_id", insertable = false, updatable = false)
+    protected Course courseid;
+    protected int price;
     @Column(name = "subscription_date")
     private Date subscriptionDate;
 
-    @ManyToOne(cascade = {CascadeType.MERGE},fetch= FetchType.EAGER)
-    @JoinColumn(name = "student_name", insertable = false, updatable = false, referencedColumnName = "id")
-    private Student student;
-    @ManyToOne
-    @JoinColumn(name = "course_name", insertable = false, updatable = false, referencedColumnName = "id")
-    private Course course;
 
     public PurchaseList() {
 
     }
 
-    public PurchaseList(PurchaseListKey id, String studentName,
-                        String courseName, int price, Date subscriptionDate) {
+    public PurchaseList(PurchaseListKey id) {
         this.id = id;
-        this.studentName = studentName;
-        this.courseName = courseName;
-        this.price = price;
+    }
+
+    public Date getSubscriptionDate() {
+        return subscriptionDate;
+    }
+
+    public void setSubscriptionDate(Date subscriptionDate) {
         this.subscriptionDate = subscriptionDate;
     }
 
+    public int getPrice() {
+        return price;
+    }
 
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public Student getStudentid() {
+        return studentid;
+    }
+
+    public void setStudentid(Student studentid) {
+        this.studentid = studentid;
+    }
+
+    public Course getCourseid() {
+        return courseid;
+    }
+
+    public void setCourseid(Course courseid) {
+        this.courseid = courseid;
+    }
 }

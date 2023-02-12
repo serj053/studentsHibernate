@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
+
 @Entity
 @Getter
 @Setter
@@ -23,7 +24,6 @@ public class Student  implements Serializable {
 
     }
     public Student(String name, int age, Date registrationDate) {
-        this.id = id;
         this.name = name;
         this.age = age;
         this.registrationDate = registrationDate;
