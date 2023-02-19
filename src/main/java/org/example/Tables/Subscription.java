@@ -12,18 +12,52 @@ import java.util.Date;
 @Setter
 @Table(name = "subscriptions")
 public class Subscription  implements Serializable {
+
     @EmbeddedId
     protected SubscriptionKey id;
 
     @ManyToOne
-    @JoinColumn(name = "studentid_id", insertable = false, updatable = false)
+    @JoinColumn(name = "studentId", insertable = false, updatable = false)
     private Student studentid;
 
     @ManyToOne
-    @JoinColumn(name = "courseid_id", insertable = false, updatable = false)
+    @JoinColumn(name = "courseId", insertable = false, updatable = false)
     private Course courseid;
     @Column(name = "subscription_date")
     private Date subscriptionDate;
+
+    public SubscriptionKey getId() {
+        return id;
+    }
+
+    public void setId(SubscriptionKey id) {
+        this.id = id;
+    }
+
+    public Student getStudentid() {
+        return studentid;
+    }
+
+    public void setStudentid(Student studentid) {
+        this.studentid = studentid;
+    }
+
+    public Course getCourseid() {
+        return courseid;
+    }
+
+    public void setCourseid(Course courseid) {
+        this.courseid = courseid;
+    }
+
+    public Date getSubscriptionDate() {
+        return subscriptionDate;
+    }
+
+    public void setSubscriptionDate(Date subscriptionDate) {
+        this.subscriptionDate = subscriptionDate;
+    }
+
 
     public Subscription() {
     }

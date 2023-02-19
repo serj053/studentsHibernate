@@ -5,7 +5,7 @@
     <session-factory>
         <!-- JDBC Database connection settings -->
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/dbtest?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;serverTimezone=UTC</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/dbtest4?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;serverTimezone=UTC</property>
         <property name="connection.username">root</property>
         <property name="connection.password">pi3141</property>
         <!-- JDBC connection pool settings ... using built-in test pool -->
@@ -20,13 +20,15 @@
         CREATE- создает базу данных удаляя пред идущие данные (удаляет данные при запуске приложения)
         CREATE-DROP после завершение приложения удаляет полностью данные (удаляет данные при завершении)
         validate сверяет структуру базы данных со структурой класса или ошибка-->
-        <property name="hbm2ddl.auto">create</property>
+        <property name="hbm2ddl.auto">validate</property>
 
         <mapping class="org.example.Tables.Student"></mapping>
         <mapping class="org.example.Tables.Teacher"></mapping>
         <mapping class="org.example.Tables.Course"></mapping>
         <mapping class="org.example.Tables.PurchaseList"></mapping>
         <mapping class="org.example.Tables.Subscription"></mapping>
+        <mapping class="org.example.Tables.LinkedPurchaseList"></mapping>
+
 
 
     </session-factory>

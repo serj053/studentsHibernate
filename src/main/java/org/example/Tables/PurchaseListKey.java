@@ -11,6 +11,15 @@ public class PurchaseListKey implements Serializable {
     protected String studentName;
 
     protected String courseName;
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
     public PurchaseListKey(){
     }
     public PurchaseListKey(String studentName, String courseName) {

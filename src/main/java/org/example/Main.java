@@ -1,50 +1,40 @@
 package org.example;
 
-import org.example.ParsingClasses.*;
 import org.example.Tables.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args) {
 
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        /*new branch*/
+        Transaction transaction = session.beginTransaction();
+        List<PurchaseList> purchaseListQuery = session.createQuery("select pur from PurchaseList pur")
+                .getResultList();
 
-        String[] listStudent = ReadDump.getLineDump("data/dump.sql", "Students");
-        for (String str : listStudent) {
-            Student st = new Student();
-            StudentsDump.doStudents(session, st, str);
+        for (PurchaseList purchaseList : purchaseListQuery) {
+            String st = purchaseList.getId().getStudentName();
+            String cr = purchaseList.getId().getCourseName();
+            Query stdQ = session.createQuery("select st from Student  st where name =: stName")
+                    .setParameter("stName", st);
+            Student std = (Student) stdQ.getSingleResult();
+            Query crsQ = session.createQuery("select cr from Course cr where name =: purName")
+                    .setParameter("purName", cr);
+            Course crs = (Course) crsQ.getSingleResult();
+            System.out.println("1  " + std.getId() + "  " + crs.getId());
+            LinkedPurchaseListKey key = new LinkedPurchaseListKey(std.getId(), crs.getId());
+            LinkedPurchaseList lpList = new LinkedPurchaseList(key);
+            session.persist(lpList);
         }
 
-        String[] listSubscriptions = ReadDump.getLineDump("data/dump.sql", "Subscription");
-        for (String str : listSubscriptions) {
-            SubscriptionsDump.doSubscriptions(session, str);
-        }
-
-        String[] listPurchaseList = ReadDump.getLineDump("data/dump.sql", "PurchaseList");
-        for (String str : listPurchaseList) {
-            PurchaseListDump.doPurchaseList(session, str);
-        }
-
-        String[] listTeachers = ReadDump.getLineDump("data/dump.sql", "Teachers");
-        for (String str : listTeachers) {
-            Teacher st = new Teacher();
-            TeachersDump.doTeachers(session, st, str);
-        }
-
-        String[] listCourses = ReadDump.getLineDump("data/dump.sql", "Courses");
-        for (String str : listCourses) {
-            Course st = new Course();
-            CoursesDump.doCourse(session, st, str);
-        }
-
-        session.getTransaction().commit();
+        transaction.commit();
         sessionFactory.close();
     }
 }
